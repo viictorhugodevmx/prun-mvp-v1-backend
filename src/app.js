@@ -4,6 +4,12 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 
+const authRoutes = require('./modules/auth/auth.routes');
+const notFoundMiddleware = require('./middlewares/not-found.middleware');
+const errorMiddleware = require('./middlewares/error.middleware');
+const AppError = require('./utils/app-error');
+const { successResponse } = require('./utils/api-response');
+
 const app = express();
 
 app.use(helmet());
@@ -22,14 +28,24 @@ app.get('/api/health', (_req, res) => {
     3: 'disconnecting',
   };
 
-  return res.status(200).json({
-    success: true,
-    message: 'Prun backend is running',
-    data: {
-      status: 'ok',
-      database: dbStatusMap[dbState] || 'unknown',
-    },
-  });
+  return res.status(200).json(
+    successResponse({
+      message: 'Prun backend is running',
+      data: {
+        status: 'ok',
+        database: dbStatusMap[dbState] || 'unknown',
+      },
+    })
+  );
 });
+
+app.get('/api/test-error', (_req, _res, next) => {
+  return next(new AppError('Manual test error', 500));
+});
+
+app.use('/api/auth', authRoutes);
+
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
 
 module.exports = app;
