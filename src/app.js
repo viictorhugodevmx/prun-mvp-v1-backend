@@ -5,10 +5,12 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 
 const authRoutes = require('./modules/auth/auth.routes');
+const userRoutes = require('./modules/users/user.routes');
 const notFoundMiddleware = require('./middlewares/not-found.middleware');
 const errorMiddleware = require('./middlewares/error.middleware');
 const AppError = require('./utils/app-error');
 const { successResponse } = require('./utils/api-response');
+
 
 const app = express();
 
@@ -44,6 +46,7 @@ app.get('/api/test-error', (_req, _res, next) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);

@@ -3,20 +3,7 @@ const AppError = require('../../utils/app-error');
 const { hashPassword, comparePassword } = require('../../utils/password');
 const { signToken } = require('../../utils/jwt');
 
-const sanitizeUser = (user) => {
-  return {
-    id: user._id,
-    name: user.name,
-    email: user.email,
-    phone: user.phone,
-    role: user.role,
-    photo: user.photo,
-    rating: user.rating,
-    status: user.status,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
-  };
-};
+const { sanitizeUser } = require('../users/user.utils');
 
 const register = async ({ name, email, phone, password, role }) => {
   const existingUser = await User.findOne({ email: email.toLowerCase() });
