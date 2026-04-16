@@ -35,8 +35,44 @@ const getWalkById = asyncHandler(async (req, res) => {
   );
 });
 
+const acceptWalk = asyncHandler(async (req, res) => {
+  const walk = await walkService.acceptWalk(req.user, req.params.walkId);
+
+  return res.status(200).json(
+    successResponse({
+      message: 'Walk accepted successfully',
+      data: walk,
+    })
+  );
+});
+
+const startWalk = asyncHandler(async (req, res) => {
+  const walk = await walkService.startWalk(req.user, req.params.walkId);
+
+  return res.status(200).json(
+    successResponse({
+      message: 'Walk started successfully',
+      data: walk,
+    })
+  );
+});
+
+const completeWalk = asyncHandler(async (req, res) => {
+  const walk = await walkService.completeWalk(req.user, req.params.walkId);
+
+  return res.status(200).json(
+    successResponse({
+      message: 'Walk completed successfully',
+      data: walk,
+    })
+  );
+});
+
 module.exports = {
   createWalk,
   getWalks,
   getWalkById,
+  acceptWalk,
+  startWalk,
+  completeWalk,
 };
