@@ -168,6 +168,35 @@ const completeWalk = async (user, walkId) => {
   return sanitizeWalk(walk);
 };
 
+const addWalkSummary = async (user, walkId, payload) => {
+if (user.role !== ROLES.PRUNNER) {
+  throw new AppError('Only Prunner can add summaries', 403);
+}
+
+const walk = await Walk.findById(walkId);
+
+if (!walk) {
+  throw new AppError('Walk not found', 404);
+}
+
+const isAssigned =
+  walk.prunnerId && walk.prunnerId.toString() === user.id;
+
+if (!isAssigned) {
+  throw new AppError('You can only summarize your assigned walks', 403);
+}
+
+if (walk.status !== WALK_STATUS.COMPLETED) {
+  throw new AppError('Summary can only be added after completing the walk', 422);
+}
+
+walk.summary = payload.summary;
+
+await walk.save();
+
+return sanitizeWalk(walk);
+};
+
 module.exports = {
   createWalk,
   getWalks,
@@ -175,4 +204,5 @@ module.exports = {
   acceptWalk,
   startWalk,
   completeWalk,
+  addWalkSummary,
 };

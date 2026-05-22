@@ -17,4 +17,11 @@ router.post('/:walkId/accept', walkIdValidation, validateMiddleware, walkControl
 router.post('/:walkId/start', walkIdValidation, validateMiddleware, walkController.startWalk);
 router.post('/:walkId/complete', walkIdValidation, validateMiddleware, walkController.completeWalk);
 
+router.post(
+  '/:walkId/summary',
+  walkIdValidation,
+  validateMiddleware,
+  walkController.addWalkSummary
+);
+
 module.exports = router;3

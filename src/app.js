@@ -9,6 +9,7 @@ const userRoutes = require('./modules/users/user.routes');
 const dogRoutes = require('./modules/dogs/dog.routes');
 const walkRoutes = require('./modules/walks/walk.routes');
 const trackingRoutes = require('./modules/tracking/tracking.routes');
+const photoRoutes = require('./modules/photos/photo.routes');
 
 const notFoundMiddleware = require('./middlewares/not-found.middleware');
 const errorMiddleware = require('./middlewares/error.middleware');
@@ -54,6 +55,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/dogs', dogRoutes);
 app.use('/api/walks', walkRoutes);
 app.use('/api/walks', trackingRoutes);
+app.use('/api/walks', photoRoutes);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);

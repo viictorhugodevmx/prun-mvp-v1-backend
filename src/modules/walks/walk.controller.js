@@ -68,6 +68,21 @@ const completeWalk = asyncHandler(async (req, res) => {
   );
 });
 
+const addWalkSummary = asyncHandler(async (req, res) => {
+  const walk = await walkService.addWalkSummary(
+    req.user,
+    req.params.walkId,
+    req.body
+  );
+
+  return res.status(200).json(
+    successResponse({
+      message: 'Walk summary added successfully',
+      data: walk,
+    })
+  );
+});
+
 module.exports = {
   createWalk,
   getWalks,
@@ -75,4 +90,5 @@ module.exports = {
   acceptWalk,
   startWalk,
   completeWalk,
+  addWalkSummary,
 };

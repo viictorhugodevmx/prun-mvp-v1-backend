@@ -56,6 +56,11 @@ const walkSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    summary: {
+      type: String,
+      default: null,
+      trim: true,
+    },
   },
   {
     timestamps: true,
