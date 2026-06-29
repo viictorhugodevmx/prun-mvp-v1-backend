@@ -3,6 +3,7 @@ const TrackingPoint = require('./tracking.model');
 const AppError = require('../../utils/app-error');
 const { WALK_STATUS, ROLES } = require('../../config/constants');
 const { sanitizeTrackingPoint } = require('./tracking.utils');
+const { getIO } = require('../../sockets');
 
 const addTrackingPoint = async (user, walkId, payload) => {
   if (user.role !== ROLES.PRUNNER) {
@@ -33,7 +34,15 @@ const addTrackingPoint = async (user, walkId, payload) => {
     timestamp: payload.timestamp,
   });
 
-  return sanitizeTrackingPoint(point);
+  const sanitizedPoint = sanitizeTrackingPoint(point);
+
+  const io = getIO();
+
+  if (io) {
+    io.to(`walk:${walkId}`).emit('walk:tracking:new-point', sanitizedPoint);
+  }
+
+  return sanitizedPoint;
 };
 
 const getTrackingByWalk = async (user, walkId) => {
