@@ -112,8 +112,7 @@ const getWalkById = async (user, walkId) => {
   }
 
   if (user.role === ROLES.PRUNNER) {
-    const isRequested =
-      walk.status === WALK_STATUS.REQUESTED;
+    const isRequested = walk.status === WALK_STATUS.REQUESTED;
 
     const isAssignedToPrunner =
       walk.prunnerId &&
@@ -130,6 +129,23 @@ const getWalkById = async (user, walkId) => {
 const acceptWalk = async (user, walkId) => {
   if (user.role !== ROLES.PRUNNER) {
     throw new AppError('Only Prunner users can accept walks', 403);
+  }
+
+  const activeAssignments = await Walk.countDocuments({
+    prunnerId: user.id,
+    status: {
+      $in: [
+        WALK_STATUS.ACCEPTED,
+        WALK_STATUS.IN_PROGRESS,
+      ],
+    },
+  });
+
+  if (activeAssignments >= 2) {
+    throw new AppError(
+      'You already have the maximum number of active walks',
+      422
+    );
   }
 
   const walk = await Walk.findById(walkId);
