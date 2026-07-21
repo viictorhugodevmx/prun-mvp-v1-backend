@@ -11,8 +11,23 @@ const getPrunnerDashboard = asyncHandler(
 
     return res.status(200).json(
       successResponse({
-        message:
-          'Dashboard fetched successfully',
+        message: 'Dashboard fetched successfully',
+        data: result,
+      })
+    );
+  }
+);
+
+const getPrownerDashboard = asyncHandler(
+  async (req, res) => {
+    const result =
+      await dashboardService.getPrownerDashboard(
+        req.user
+      );
+
+    return res.status(200).json(
+      successResponse({
+        message: 'Dashboard fetched successfully',
         data: result,
       })
     );
@@ -21,4 +36,5 @@ const getPrunnerDashboard = asyncHandler(
 
 module.exports = {
   getPrunnerDashboard,
+  getPrownerDashboard,
 };

@@ -13,4 +13,10 @@ router.get(
   dashboardController.getPrunnerDashboard
 );
 
+router.get(
+  '/prowner',
+  protect,
+  dashboardController.getPrownerDashboard
+);
+
 module.exports = router;
