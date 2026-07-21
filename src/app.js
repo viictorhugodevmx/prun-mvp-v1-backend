@@ -16,7 +16,6 @@ const dashboardRoutes = require('./modules/dashboard/dashboard.routes');
 
 const notFoundMiddleware = require('./middlewares/not-found.middleware');
 const errorMiddleware = require('./middlewares/error.middleware');
-const AppError = require('./utils/app-error');
 const { successResponse } = require('./utils/api-response');
 
 const app = express();
@@ -46,10 +45,6 @@ app.get('/api/health', (_req, res) => {
       },
     })
   );
-});
-
-app.get('/api/test-error', (_req, _res, next) => {
-  return next(new AppError('Manual test error', 500));
 });
 
 app.use('/api/auth', authRoutes);
