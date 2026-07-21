@@ -12,6 +12,7 @@ const trackingRoutes = require('./modules/tracking/tracking.routes');
 const photoRoutes = require('./modules/photos/photo.routes');
 const ratingRoutes = require('./modules/ratings/rating.routes');
 const serviceAreaRoutes = require('./modules/service-area/service-area.routes');
+const dashboardRoutes = require('./modules/dashboard/dashboard.routes');
 
 const notFoundMiddleware = require('./middlewares/not-found.middleware');
 const errorMiddleware = require('./middlewares/error.middleware');
@@ -59,6 +60,7 @@ app.use('/api/walks', walkRoutes);
 app.use('/api/walks', trackingRoutes);
 app.use('/api/walks', photoRoutes);
 app.use('/api', ratingRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
