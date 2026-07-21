@@ -11,12 +11,12 @@ const walkRoutes = require('./modules/walks/walk.routes');
 const trackingRoutes = require('./modules/tracking/tracking.routes');
 const photoRoutes = require('./modules/photos/photo.routes');
 const ratingRoutes = require('./modules/ratings/rating.routes');
+const serviceAreaRoutes = require('./modules/service-area/service-area.routes');
 
 const notFoundMiddleware = require('./middlewares/not-found.middleware');
 const errorMiddleware = require('./middlewares/error.middleware');
 const AppError = require('./utils/app-error');
 const { successResponse } = require('./utils/api-response');
-
 
 const app = express();
 
@@ -53,6 +53,7 @@ app.get('/api/test-error', (_req, _res, next) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/users', serviceAreaRoutes);
 app.use('/api/dogs', dogRoutes);
 app.use('/api/walks', walkRoutes);
 app.use('/api/walks', trackingRoutes);

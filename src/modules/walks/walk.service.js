@@ -31,6 +31,7 @@ const createWalk = async (user, payload) => {
     estimatedDuration: payload.estimatedDuration,
     price: payload.price,
     address: payload.address,
+    pickupLocation: payload.pickupLocation,
   });
 
   return sanitizeWalk(walk);
@@ -169,32 +170,32 @@ const completeWalk = async (user, walkId) => {
 };
 
 const addWalkSummary = async (user, walkId, payload) => {
-if (user.role !== ROLES.PRUNNER) {
-  throw new AppError('Only Prunner can add summaries', 403);
-}
+  if (user.role !== ROLES.PRUNNER) {
+    throw new AppError('Only Prunner can add summaries', 403);
+  }
 
-const walk = await Walk.findById(walkId);
+  const walk = await Walk.findById(walkId);
 
-if (!walk) {
-  throw new AppError('Walk not found', 404);
-}
+  if (!walk) {
+    throw new AppError('Walk not found', 404);
+  }
 
-const isAssigned =
-  walk.prunnerId && walk.prunnerId.toString() === user.id;
+  const isAssigned =
+    walk.prunnerId && walk.prunnerId.toString() === user.id;
 
-if (!isAssigned) {
-  throw new AppError('You can only summarize your assigned walks', 403);
-}
+  if (!isAssigned) {
+    throw new AppError('You can only summarize your assigned walks', 403);
+  }
 
-if (walk.status !== WALK_STATUS.COMPLETED) {
-  throw new AppError('Summary can only be added after completing the walk', 422);
-}
+  if (walk.status !== WALK_STATUS.COMPLETED) {
+    throw new AppError('Summary can only be added after completing the walk', 422);
+  }
 
-walk.summary = payload.summary;
+  walk.summary = payload.summary;
 
-await walk.save();
+  await walk.save();
 
-return sanitizeWalk(walk);
+  return sanitizeWalk(walk);
 };
 
 module.exports = {

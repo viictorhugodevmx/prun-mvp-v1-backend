@@ -39,12 +39,10 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-
     totalRatings: {
       type: Number,
       default: 0,
     },
-
     ratingsCount: {
       type: Number,
       default: 0,
@@ -53,6 +51,20 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: Object.values(USER_STATUS),
       default: USER_STATUS.ACTIVE,
+    },
+    serviceLocation: {
+      lat: {
+        type: Number,
+        default: null,
+      },
+      lng: {
+        type: Number,
+        default: null,
+      },
+    },
+    serviceRadiusKm: {
+      type: Number,
+      default: 10,
     },
   },
   {

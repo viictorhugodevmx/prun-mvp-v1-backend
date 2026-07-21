@@ -56,6 +56,16 @@ const walkSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    pickupLocation: {
+      lat: {
+        type: Number,
+        required: true,
+      },
+      lng: {
+        type: Number,
+        required: true,
+      },
+    },
     summary: {
       type: String,
       default: null,

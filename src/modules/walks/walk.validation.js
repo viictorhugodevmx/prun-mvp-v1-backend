@@ -27,6 +27,14 @@ const createWalkValidation = [
     .trim()
     .notEmpty()
     .withMessage('Address is required'),
+
+  body('pickupLocation.lat')
+    .isFloat()
+    .withMessage('Latitude is required'),
+
+  body('pickupLocation.lng')
+    .isFloat()
+    .withMessage('Longitude is required'),
 ];
 
 const walkIdValidation = [
